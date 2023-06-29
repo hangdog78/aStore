@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using aStoreServer;
 using Serilog;
+using Npgsql;
+using Microsoft.Extensions.DependencyInjection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +33,11 @@ builder.Logging
     .AddConsole();
 
 builder.Services.AddEndpointsApiExplorer();
+var connection = "Host=localhost:5432;Username=postgres;Password=123456;Database=postgres";
+
+
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+
 
 var app = builder.Build();
 
