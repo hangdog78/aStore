@@ -9,13 +9,17 @@ namespace aStoreServer.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         [Column("GroupOperation")]
-        public int GroupOperationId { get; set; }
+        public int? GroupOperationId { get; set; }
+
         [NotMapped]
         [JsonIgnore]
-        Group GroupOperation { get; set; }
+        public Group? GroupOperation { get; set; }
+
         [Column("OperationName")]
         public string OperationName { get; set; }
+
         [Column("OperationDescription")]
         public string OperationDescription { get; set; }
     }

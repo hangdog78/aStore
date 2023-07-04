@@ -21,39 +21,40 @@ namespace aStoreServer.Controllers
         }
 
         [HttpPost]
-        async public Task<Operation> Post([FromBody] Operation value)
+        public async Task<ActionResult<Operation>> Post(Operation value)
         {
-            var tests= _context.Operations.AddAsync(value);
-            _context.SaveChanges();
-            System.Console.WriteLine(tests.GetType);
-            return null;
+            var entity = await _context.Operation.AddAsync(value);
+            await _context.SaveChangesAsync();
+
+            return Ok(entity.Entity);
         }
+
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Operations.ToList());
+            return Ok(_context.Operation.ToList());
         }
     }
     [Route("api/[controller]")]
     [ApiController]
     public class TraceController : ControllerBase
     {
-       public class TestController : ControllerBase
-    {
-        private readonly ApplicationContext _context;
-
-        public TestController(ApplicationContext context)
+        public class TestController : ControllerBase
         {
-            _context = context;
-        }
+            private readonly ApplicationContext _context;
 
-        [HttpGet]
-        public IActionResult GetTests()
-        {
-            var tests = _context.Test.ToList();
-            return Ok(tests);
+            public TestController(ApplicationContext context)
+            {
+                _context = context;
+            }
+
+            [HttpGet]
+            public IActionResult GetTests()
+            {
+                var tests = _context.Test.ToList();
+                return Ok(tests);
+            }
         }
-    }
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public string Get(int id)

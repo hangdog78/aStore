@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+п»їusing Microsoft.AspNetCore.Mvc.ApplicationModels;
 using aStoreServer;
 using Serilog;
 using Npgsql;
@@ -24,7 +24,7 @@ builder.Services.AddControllers(cfg =>
       new SlugifyParameterTransformer()));
 });
 
-// Добавляем лог в файл
+// Р”РѕР±Р°РІР»СЏРµРј Р»РѕРі РІ С„Р°Р№Р»
 builder.Logging.ClearProviders();
 var logpath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log", $"log-{DateTime.UtcNow:dd-MM-y--HH-mm-ss}.txt");
 builder.Logging
@@ -36,7 +36,7 @@ builder.Logging
     .AddConsole();
 
 builder.Services.AddEndpointsApiExplorer();
-var connection = "Host=localhost:5432;Username=postgres;Password=123456;Database=DbAlmaz";
+var connection = "Host=localhost:5432;Username=postgres;Password=example;Database=DbAlmaz";
 
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
