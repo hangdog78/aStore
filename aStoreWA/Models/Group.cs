@@ -13,9 +13,10 @@ namespace aStoreServer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Column("Group")]
-        public int GroupId {get; set; }
+        public int? GroupId {get; set; }
         [NotMapped]
-        Group GroupItem { get; set; }
+        [JsonIgnore]
+        Group? GroupItem { get; set; }
         [Column("Name")]
         public string Name {get; set; }
         [Column("Description")]
