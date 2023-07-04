@@ -1,6 +1,9 @@
-﻿using aStoreServer.Models;
+﻿using System.Linq;
+using aStoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using static System.Net.Mime.MediaTypeNames;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,14 +21,17 @@ namespace aStoreServer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Operation value)
+        async public Task<Operation> Post([FromBody] Operation value)
         {
-            var tests = await _context.Operations.AddAsync(value);
+            var tests= _context.Operations.AddAsync(value);
             _context.SaveChanges();
-            var tmp = new ObjectResult(tests) { StatusCode = StatusCodes.Status201Created };
-
-            return tmp;
-   
+            System.Console.WriteLine(tests.GetType);
+            return null;
+        }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_context.Operations.ToList());
         }
     }
     [Route("api/[controller]")]

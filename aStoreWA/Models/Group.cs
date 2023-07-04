@@ -14,8 +14,8 @@ namespace aStoreServer.Models
         public int Id { get; set; }
         [Column("Group")]
         public int GroupId {get; set; }
-        [NotMapped]     
-        public Group GroupItem { get; set; }
+        [NotMapped]
+        Group GroupItem { get; set; }
         [Column("Name")]
         public string Name {get; set; }
         [Column("Description")]
