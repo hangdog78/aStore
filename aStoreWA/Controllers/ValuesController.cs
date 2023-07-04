@@ -1,5 +1,6 @@
 ﻿using aStoreServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +17,15 @@ namespace aStoreServer.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public ICollection<Test> GetTests()
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Operation value)
         {
-            var tests = _context.test.ToList();
-            return tests;
+            var tests = await _context.Operations.AddAsync(value);
+            _context.SaveChanges();
+            var tmp = new ObjectResult(tests) { StatusCode = StatusCodes.Status201Created };
+
+            return tmp;
+   
         }
     }
     [Route("api/[controller]")]
@@ -39,7 +44,7 @@ namespace aStoreServer.Controllers
         [HttpGet]
         public IActionResult GetTests()
         {
-            var tests = _context.test.ToList();
+            var tests = _context.Test.ToList();
             return Ok(tests);
         }
     }

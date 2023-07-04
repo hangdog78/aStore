@@ -1,22 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection.Emit;
-using aStoreServer.Contracts;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace aStoreServer.Models
 {
-    public class Operation : IOperation
+    public class Operation
     {
-        public int idOperation { get; }
-
-        public Destanation destanationOperation { get; }
-
-        public DateTime dateCreation { get; }
-
-        public StateOpetation stateOperation { get; }
-
-        public string nameOperation { get; }
-
-        
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Column("GroupOperation")]
+        public int GroupOperationId { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        Group GroupOperation { get; set; }
+        [Column("OperationName")]
+        public string OperationName { get; set; }
+        [Column("OperationDescription")]
+        public string OperationDescription { get; set; }
     }
 
 }
+
