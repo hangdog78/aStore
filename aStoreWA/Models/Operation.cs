@@ -18,10 +18,10 @@ namespace aStoreServer.Models
         public Group? GroupOperation { get; set; }
 
         [Column("OperationName")]
-        public string OperationName { get; set; }
+        public string OperationName { get; set; } = "";
 
         [Column("OperationDescription")]
-        public string OperationDescription { get; set; }
+        public string OperationDescription { get; set; } = "";
     }
 
 }

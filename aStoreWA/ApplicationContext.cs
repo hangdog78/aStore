@@ -5,6 +5,7 @@ public class ApplicationContext : DbContext
 {
 
     public DbSet<Operation> Operation => Set<Operation>();
+    public DbSet<QR> QR => Set<QR>();
     public DbSet<Department> Department { get; set; } = null!;
     public DbSet<DepGroup> DepGroup { get; set; } = null!;
     public DbSet<Entity> Entity { get; set; } = null!;

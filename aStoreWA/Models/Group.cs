@@ -15,11 +15,11 @@ namespace aStoreServer.Models
         [Column("Group")]
         public int GroupId {get; set; }
         [NotMapped]
-        Group GroupItem { get; set; }
+        Group? GroupItem { get; set; }
         [Column("Name")]
-        public string Name {get; set; }
+        public string Name { get; set; } = "";
         [Column("Description")]
-        public string Description {get; set; }
+        public string Description { get; set; } = "";
 
     }
 
