@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Contracts\" />
+    <Folder Include="files\" />
+    <Folder Include="qrCodes\" />
   </ItemGroup>
 
 </Project>

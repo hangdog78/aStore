@@ -1,4 +1,6 @@
-﻿using aStoreServer.Models;
+﻿using System;
+using System.Text;
+using aStoreServer.Models;
 using IronBarCode;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,33 +18,32 @@ namespace aStoreServer.Controllers
             _context = context;
         }
 
-        [HttpGet(nameof(id))]
-        [ActionName(nameof(GetQRById))]
-        public async Task<IActionResult> GetQRById([FromRoute] int id)
+
+        [HttpPost("create")]
+        public async Task<ActionResult> Post(string _fileName, string valueToEncode)
         {
-            var entity = await _context.QR.FindAsync(id);
-            return Ok(entity);
-        }
+            var filePath = $"qrCodes/{_fileName}";
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Encoding encoding = Encoding.GetEncoding("UTF-8");
+            byte[] bytes = encoding.GetBytes(valueToEncode);
+            GeneratedBarcode BarCode = BarcodeWriter.CreateBarcode(bytes, BarcodeWriterEncoding.QRCode);
+            BarCode.SaveAsPng($"qrCodes/{_fileName}.png");
+ 
+            return CreatedAtAction("GetFile", new { fileName = _fileName }, _fileName);
 
-        [HttpPost]
-        public async Task<ActionResult<QR>> Post(QR value)
+        }
+        [HttpGet("fileName")]
+        [ActionName(nameof(GetFile))]
+        [ProducesResponseType(typeof(byte[]), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        public async Task<IActionResult> GetFile(string fileName)
         {
-            var entity = await _context.QR.AddAsync(value);
-            await _context.SaveChangesAsync();
-            var qrCode = QRCodeWriter.CreateQrCode(value.QrInfo, 300);
-            qrCode.AddBarcodeValueTextBelowBarcode();
-            qrCode.AddAnnotationTextAboveBarcode(entity.ToString());
-            qrCode.SaveAsPng(@"D:\tor\Qr.png");
-
-
-            return CreatedAtAction("GetQRById", new { id = entity.Entity.Id }, entity.Entity);
+            var filePath = $"qrCodes/{fileName}.png"; 
+            if (!System.IO.File.Exists(filePath))
+            {
+                return BadRequest();
+            }
+            return File(await System.IO.File.ReadAllBytesAsync(filePath), "application/octet-stream", $"{fileName}.png");
         }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_context.QR.ToList());
-        }
-
     }
 }
