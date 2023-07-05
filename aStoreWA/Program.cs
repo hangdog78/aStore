@@ -36,7 +36,7 @@ builder.Logging
     .AddConsole();
 
 builder.Services.AddEndpointsApiExplorer();
-var connection = "Host=localhost:5432;Username=postgres;Password=example;Database=DbAlmaz";
+var connection = "Host=localhost:5432;Username=test;Password=1234567;Database=aStore";
 
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
