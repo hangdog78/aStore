@@ -20,13 +20,21 @@ namespace aStoreServer.Controllers
             _context = context;
         }
 
+        [HttpGet(nameof(id))]
+        [ActionName(nameof(GetOperationById))]
+        public async Task<IActionResult> GetOperationById([FromRoute] int id)
+        {
+            var entity = await _context.Operation.FindAsync(id);
+            return Ok(entity);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Operation>> Post(Operation value)
         {
             var entity = await _context.Operation.AddAsync(value);
             await _context.SaveChangesAsync();
 
-            return Ok(entity.Entity);
+            return CreatedAtAction("GetOperationById", new { id = entity.Entity.Id }, entity.Entity);
         }
 
         [HttpGet]
