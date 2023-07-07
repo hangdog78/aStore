@@ -12,6 +12,11 @@ namespace aStoreServer.Controllers
     [Route("api/[controller]")]
     public class QRController : Controller
     {
+        public class BacrodeQrDto
+        {
+            public string _fileName { get; set; }
+            public string valueToEncode { get; set; }
+        } 
         private readonly ApplicationContext _context;
         public QRController(ApplicationContext context)
         {
@@ -20,16 +25,17 @@ namespace aStoreServer.Controllers
 
 
         [HttpPost("create")]
-        public async Task<ActionResult> Post(string _fileName, string valueToEncode)
+        [ProducesResponseType(typeof(byte[]), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] BacrodeQrDto barcodeData)
         {
-            var filePath = $"qrCodes/{_fileName}";
+            var filePath = $"qrCodes/{barcodeData._fileName}.png";
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Encoding encoding = Encoding.GetEncoding("UTF-8");
-            byte[] bytes = encoding.GetBytes(valueToEncode);
-            GeneratedBarcode BarCode = BarcodeWriter.CreateBarcode(bytes, BarcodeWriterEncoding.QRCode);
-            BarCode.SaveAsPng($"qrCodes/{_fileName}.png");
+            byte[] bytes = encoding.GetBytes(barcodeData.valueToEncode);
+            GeneratedBarcode BarCode = BarcodeWriter.CreateBarcode(bytes, BarcodeWriterEncoding.QRCode, 10000, 10000);
+            BarCode.SaveAsPng($"qrCodes/{barcodeData._fileName}.png");
  
-            return CreatedAtAction("GetFile", new { fileName = _fileName }, _fileName);
+            return File(await System.IO.File.ReadAllBytesAsync(filePath), "application/octet-stream", $"{barcodeData._fileName}.png");
 
         }
         [HttpGet("fileName")]

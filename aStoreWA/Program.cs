@@ -46,6 +46,10 @@ var app = builder.Build();
 
 app.MapControllers();
 app.UseRouting();
+app.UseCors(builder => builder
+        .AllowAnyMethod()
+        .AllowAnyOrigin()
+        .AllowAnyHeader());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
