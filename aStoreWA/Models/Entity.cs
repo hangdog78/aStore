@@ -4,24 +4,44 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
 
 namespace aStoreServer.Models
 {
+    /// <summary>
+    ///  Сущность объекта
+    /// </summary>
     public class Entity
     {
+        /// <summary>
+        ///  Id
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Column("Uiid")]
-        public string Uiid { get; set; }
+
+        /// <summary>
+        ///  Имя объекта
+        /// </summary>
         [Column("Name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Описание объекта
+        /// </summary>
         [Column("Description")]
         public string Description { get; set; }
-        [Column("GroupId")]
-        public int GroupId { get; set; }
-        [NotMapped]
-        Group GroupItem { get; set; }
+
+        /// <summary>
+        /// Ссылка на группу/категорию объекта
+        /// </summary>
+        public int? GroupItemId { get; set; }
+        /// <summary>
+        /// Сущность категории объекта
+        /// </summary>
+        [ForeignKey(nameof(GroupItemId))]
+        [JsonIgnore]
+        public Group? GroupItem { get; set; }
 
     }
 

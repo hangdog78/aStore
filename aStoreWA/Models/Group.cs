@@ -7,19 +7,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace aStoreServer.Models
 {
+    /// <summary>
+    ///  Сущность группы/категории
+    /// </summary>
     public class Group 
     {
+        /// <summary>
+        ///  Id
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Column("Group")]
-        public int GroupId {get; set; }
-        [NotMapped]
-        Group? GroupItem { get; set; }
+
+        /// <summary>
+        ///  Ссылка на группы/категории
+        /// </summary>
+        public int? GroupId {get; set; }
+
+        /// <summary>
+        ///  Сущность группы/категории
+        /// </summary>
+        [ForeignKey(nameof(GroupId))]
+        [JsonIgnore]
+        public Group? GroupItem { get; set; }
+
+        /// <summary>
+        ///  Название группы/категории
+        /// </summary>
         [Column("Name")]
-        public string Name { get; set; } = "";
+        public string Name { get; set; }
+
+        /// <summary>
+        ///  Название группы/категории
+        /// </summary>
         [Column("Description")]
-        public string Description { get; set; } = "";
+        public string Description { get; set; }
 
     }
 

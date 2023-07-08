@@ -5,18 +5,16 @@ public class ApplicationContext : DbContext
 {
 
     public DbSet<Operation> Operation => Set<Operation>();
-    public DbSet<Department> Department { get; set; } = null!;
-    public DbSet<DepGroup> DepGroup { get; set; } = null!;
-    public DbSet<Entity> Entity { get; set; } = null!;
-    public DbSet<EntityRoute> EntityRoute { get; set; } = null!;
-    public DbSet<Group> Group { get; set; } = null!;
-    public DbSet<OperationsProgress> OperationsProgress { get; set; } = null!;
-    public DbSet<OperationState> OperationState { get; set; } = null!;
-    public DbSet<PositionRules> PositionRules { get; set; } = null!;
-    public DbSet<RoutStage> RoutStage { get; set; } = null!;
-    public DbSet<Worker> Worker { get; set; } = null!;
-    public DbSet<WorkerPosition> WorkerPosition { get; set; } = null!;
-    public DbSet<Test> Test { get; set; } = null!;
+    public DbSet<Department> Department  => Set<Department>();
+    public DbSet<QR> Qr  => Set<QR>();
+    public DbSet<DepGroup> DepGroup =>Set<DepGroup>();
+    public DbSet<Entity> Entity => Set<Entity>();
+    public DbSet<EntityRoute> EntityRoute => Set<EntityRoute>();
+    public DbSet<Group> Group => Set<Group>();
+    public DbSet<OperationsProgress> OperationsProgress => Set<OperationsProgress>();
+    public DbSet<OperationState> OperationState => Set<OperationState>();
+    public DbSet<RoutStage> RoutStage => Set<RoutStage>();
+    public DbSet<Worker> Worker => Set<Worker>();
     public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
     {
