@@ -6,7 +6,6 @@ public class ApplicationContext : DbContext
 
     public DbSet<Operation> Operation => Set<Operation>();
     public DbSet<Department> Department  => Set<Department>();
-    public DbSet<QR> Qr  => Set<QR>();
     public DbSet<DepGroup> DepGroup =>Set<DepGroup>();
     public DbSet<Entity> Entity => Set<Entity>();
     public DbSet<EntityRoute> EntityRoute => Set<EntityRoute>();

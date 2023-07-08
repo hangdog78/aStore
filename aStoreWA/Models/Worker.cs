@@ -22,12 +22,14 @@ namespace aStoreServer.Models
         /// Пароль
         /// </summary>
         [Column("Password")]
+        [Required]
         public string Password {get; set; }
 
         /// <summary>
         /// Имя
         /// </summary>
         [Column("Name")]
+        [Required]
         public string Name {get; set; }
 
         /// <summary>

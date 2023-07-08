@@ -24,12 +24,14 @@ namespace aStoreServer.Models
         ///  Имя объекта
         /// </summary>
         [Column("Name")]
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
         /// Описание объекта
         /// </summary>
         [Column("Description")]
+        [Required]
         public string Description { get; set; }
 
         /// <summary>

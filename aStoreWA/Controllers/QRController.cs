@@ -23,24 +23,31 @@ namespace aStoreServer.Controllers
         /// <summary>
         /// Получить Qrcode по id объекта
         /// </summary>
-        [HttpGet("id")]
-        [ActionName(nameof(GetQrCode))]
-        public async Task<ActionResult> GetQrCode(int id)
+        [HttpPost("generate")]
+        public async Task<ActionResult> CreateQr(int EntityId)
         {
-            var entity = await _context.Qr.FirstAsync(val => val.EntityId == id); ;
-            if (entity != null)
+            var entity = await _context.Entity.FirstAsync(val => val.Id == EntityId);
+
+            if (entity == null)
             {
-
-                if (!System.IO.File.Exists(entity.Path))
-                {
-                    return BadRequest("File not exist");
-                }
-
-                return File(await System.IO.File.ReadAllBytesAsync(entity.Path), "application/octet-stream", $"{entity.Description + entity.Name}.png");
+                return BadRequest("Сущность не найдена");
             }
             else
             {
-                return NotFound();
+                var filePath = $"qrCodes/{entity.Id + entity.Name + entity.Description}.png";
+
+                var DataToEncode = new QrDto
+                {
+                    Name = entity.Name,
+                    Description = entity.Description,
+                    EntityId = entity.Id
+                };
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                Encoding encoding = Encoding.GetEncoding("UTF-8");
+                byte[] bytes = encoding.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(DataToEncode));
+                GeneratedBarcode BarCode = BarcodeWriter.CreateBarcode(bytes, BarcodeWriterEncoding.QRCode);
+                BarCode.SaveAsPng(filePath);
+                return File(await System.IO.File.ReadAllBytesAsync(filePath), "application/octet-stream", $"{entity.Id + entity.Name + entity.Description}.png");
             }
         }
     }
