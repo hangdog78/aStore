@@ -6,9 +6,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using aStoreServer.Models;
+using System.Data.Entity.ModelConfiguration;
 
 namespace aStoreServer.Controllers
 {
+
+    public class GroupEntityTypeConfiguration : EntityTypeConfiguration<Group>
+    {
+        public GroupEntityTypeConfiguration()
+        {
+            // Определяем связь между дочерними категориями.
+            HasMany(p => p.Children).
+                WithOptional(p => p.Parent);
+
+            // Определяем связь между продуктами категориями.
+            HasMany(p => p.Entitys)
+                .WithMany(p => p.Groups);
+
+            // Указание таблицы в БД.
+            ToTable("Groups");
+        }
+    }
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase

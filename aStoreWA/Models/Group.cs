@@ -29,7 +29,16 @@ namespace aStoreServer.Models
         /// </summary>
         [ForeignKey(nameof(GroupId))]
         [JsonIgnore]
-        public Group? GroupItem { get; set; }
+       // public Group? GroupItem { get; set; }
+
+        // Родительская категория.
+        public virtual Group? Parent { get; set; }
+
+        // Дочерние категории.        
+        public virtual ICollection<Group>? Children { get; set; }
+
+        // Продукты в категории.
+        public virtual ICollection<Entity>? Entitys { get; set; }
 
         /// <summary>
         ///  Название группы/категории
@@ -42,6 +51,12 @@ namespace aStoreServer.Models
         /// </summary>
         [Column("Description")]
         public string Description { get; set; }
+
+        public Group()
+        {
+            Children = new List<Group>();
+            Entitys = new List<Entity>();
+        }
 
     }
 

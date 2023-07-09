@@ -43,8 +43,15 @@ namespace aStoreServer.Models
         /// </summary>
         [ForeignKey(nameof(GroupItemId))]
         [JsonIgnore]
-        public Group? GroupItem { get; set; }
+        public virtual ICollection<Group>? Groups { get; set; }
 
+        public Entity(int Id, string Name, string Description)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Description = Description;
+            Groups = new List<Group>();
+        }
     }
 
 }

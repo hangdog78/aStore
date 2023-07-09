@@ -34,7 +34,7 @@ namespace aStoreServer.Controllers
             }
             else
             {
-                var filePath = $"qrCodes/{entity.Id + entity.Name + entity.Description}.png";
+                var filePath = $"qrCodes/{entity.Id + entity.Name}.png";
 
                 var DataToEncode = new QrDto
                 {
@@ -47,7 +47,7 @@ namespace aStoreServer.Controllers
                 byte[] bytes = encoding.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(DataToEncode));
                 GeneratedBarcode BarCode = BarcodeWriter.CreateBarcode(bytes, BarcodeWriterEncoding.QRCode);
                 BarCode.SaveAsPng(filePath);
-                return File(await System.IO.File.ReadAllBytesAsync(filePath), "application/octet-stream", $"{entity.Id + entity.Name + entity.Description}.png");
+                return File(await System.IO.File.ReadAllBytesAsync(filePath), "application/octet-stream", $"{entity.Id + entity.Name}.png");
             }
         }
     }

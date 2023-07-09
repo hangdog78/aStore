@@ -14,6 +14,8 @@ public class ApplicationContext : DbContext
     public DbSet<OperationState> OperationState => Set<OperationState>();
     public DbSet<RoutStage> RoutStage => Set<RoutStage>();
     public DbSet<Worker> Worker => Set<Worker>();
+
+  
     public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
     {
