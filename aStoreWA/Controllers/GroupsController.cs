@@ -109,6 +109,16 @@ namespace aStoreServer.Controllers
           {
               return Problem("Entity set 'ApplicationContext.Group'  is null.");
           }
+            if (@group.GroupId != null)
+            {
+                var group2 = await _context.Group.FindAsync(@group.GroupId);
+                if (group2 != null)
+                {
+                    @group.Parent = group2;
+                    group2.Children.Add(@group);
+                }
+                
+            }
             _context.Group.Add(@group);
             await _context.SaveChangesAsync();
 

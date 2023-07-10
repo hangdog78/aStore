@@ -41,15 +41,16 @@ namespace aStoreServer.Models
         /// <summary>
         /// Сущность категории объекта
         /// </summary>
-        [ForeignKey(nameof(GroupItemId))]
+     //   [ForeignKey(nameof(GroupItemId))]
         [JsonIgnore]
-        public virtual ICollection<Group>? Groups { get; set; }
+        //public virtual Group? Parent { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
 
-        public Entity(int Id, string Name, string Description)
+        public Entity()
         {
-            this.Id = Id;
-            this.Name = Name;
-            this.Description = Description;
+           // this.Id = Id;
+          //  this.Name = Name;
+          //  this.Description = Description;
             Groups = new List<Group>();
         }
     }

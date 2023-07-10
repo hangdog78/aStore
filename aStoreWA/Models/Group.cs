@@ -35,10 +35,10 @@ namespace aStoreServer.Models
         public virtual Group? Parent { get; set; }
 
         // Дочерние категории.        
-        public virtual ICollection<Group>? Children { get; set; }
+        public virtual ICollection<Group> Children { get; set; }
 
         // Продукты в категории.
-        public virtual ICollection<Entity>? Entitys { get; set; }
+        public virtual ICollection<Entity> Entitys { get; set; }
 
         /// <summary>
         ///  Название группы/категории

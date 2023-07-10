@@ -6,9 +6,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using aStoreServer.Models;
+using System.Data.Entity.ModelConfiguration;
 
 namespace aStoreServer.Controllers
 {
+
+    public class EntityGroupTypeConfiguration : EntityTypeConfiguration<Entity>
+    {
+        public EntityGroupTypeConfiguration()
+        {
+            
+            // Определяем связь между продуктами категориями.
+            HasMany(p => p.Groups)
+                .WithMany(p => p.Entitys);
+
+            // Указание таблицы в БД.
+            ToTable("Entity");
+        }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class EntitiesController : ControllerBase
@@ -89,6 +105,17 @@ namespace aStoreServer.Controllers
           {
               return Problem("Entity set 'ApplicationContext.Entity'  is null.");
           }
+            if (entity.GroupItemId != null)
+            {
+                var group2 = await _context.Group.FindAsync(entity.GroupItemId);
+                if (group2 != null)
+                {
+                    entity.Groups.Add(group2);
+                    group2.Entitys.Add(entity);
+                }
+
+            }
+
             _context.Entity.Add(entity);
             await _context.SaveChangesAsync();
 
