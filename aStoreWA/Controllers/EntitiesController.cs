@@ -15,13 +15,13 @@ namespace aStoreServer.Controllers
     {
         public EntityGroupTypeConfiguration()
         {
-            
+
             // Определяем связь между продуктами категориями.
-            HasMany(p => p.Groups)
+            /*HasMany(p => p.Groups)
                 .WithMany(p => p.Entitys);
 
             // Указание таблицы в БД.
-            ToTable("Entity");
+            ToTable("Entity");*/
         }
     }
 
@@ -40,10 +40,10 @@ namespace aStoreServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entity>>> GetEntity()
         {
-          if (_context.Entity == null)
-          {
-              return NotFound();
-          }
+            if (_context.Entity == null)
+            {
+                return NotFound();
+            }
             return await _context.Entity.ToListAsync();
         }
 
@@ -51,10 +51,10 @@ namespace aStoreServer.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Entity>> GetEntity(int id)
         {
-          if (_context.Entity == null)
-          {
-              return NotFound();
-          }
+            if (_context.Entity == null)
+            {
+                return NotFound();
+            }
             var entity = await _context.Entity.FindAsync(id);
 
             if (entity == null)
@@ -101,19 +101,18 @@ namespace aStoreServer.Controllers
         [HttpPost]
         public async Task<ActionResult<Entity>> PostEntity(Entity entity)
         {
-          if (_context.Entity == null)
-          {
-              return Problem("Entity set 'ApplicationContext.Entity'  is null.");
-          }
-            if (entity.GroupItemId != null)
+            if (_context.Entity == null)
             {
-                var group2 = await _context.Group.FindAsync(entity.GroupItemId);
+                return Problem("Entity set 'ApplicationContext.Entity'  is null.");
+            }
+            if (entity.GroupId != null)
+            {
+                var group2 = await _context.Group.FindAsync(entity.GroupId);
                 if (group2 != null)
                 {
-                    entity.Groups.Add(group2);
-                    group2.Entitys.Add(entity);
+                    entity.Group = group2;
+                    group2?.Entities.Add(entity);
                 }
-
             }
 
             _context.Entity.Add(entity);

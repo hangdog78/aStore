@@ -10,7 +10,7 @@ namespace aStoreServer.Models
     /// <summary>
     ///  Сущность группы/категории
     /// </summary>
-    public class Group 
+    public class Group
     {
         /// <summary>
         ///  Id
@@ -22,23 +22,23 @@ namespace aStoreServer.Models
         /// <summary>
         ///  Ссылка на группы/категории
         /// </summary>
-        public int? GroupId {get; set; }
+        public int? GroupId { get; set; }
 
         /// <summary>
         ///  Сущность группы/категории
         /// </summary>
         [ForeignKey(nameof(GroupId))]
         [JsonIgnore]
-       // public Group? GroupItem { get; set; }
+        [NotMapped]
 
-        // Родительская категория.
-        public virtual Group? Parent { get; set; }
+        public Group? Parent { get; set; }
 
-        // Дочерние категории.        
-        public virtual ICollection<Group> Children { get; set; }
+        /*// Дочерние категории.        
+        public virtual ICollection<Group>? Children { get; set; }*/
 
         // Продукты в категории.
-        public virtual ICollection<Entity> Entitys { get; set; }
+        [NotMapped]
+        public ICollection<Entity>? Entities { get; set; }
 
         /// <summary>
         ///  Название группы/категории
@@ -54,8 +54,8 @@ namespace aStoreServer.Models
 
         public Group()
         {
-            Children = new List<Group>();
-            Entitys = new List<Entity>();
+            //Children = new List<Group>();
+            Entities = new List<Entity>();
         }
 
     }

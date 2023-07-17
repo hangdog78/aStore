@@ -15,16 +15,16 @@ namespace aStoreServer.Controllers
     {
         public GroupEntityTypeConfiguration()
         {
-            // Определяем связь между дочерними категориями.
+            /*// Определяем связь между дочерними категориями.
             HasMany(p => p.Children).
                 WithOptional(p => p.Parent);
 
             // Определяем связь между продуктами категориями.
-            HasMany(p => p.Entitys)
+            HasMany(p => p.Entities)
                 .WithMany(p => p.Groups);
 
             // Указание таблицы в БД.
-            ToTable("Groups");
+            ToTable("Groups");*/
         }
     }
 
@@ -44,10 +44,10 @@ namespace aStoreServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroup()
         {
-          if (_context.Group == null)
-          {
-              return NotFound();
-          }
+            if (_context.Group == null)
+            {
+                return NotFound();
+            }
             return await _context.Group.ToListAsync();
         }
 
@@ -55,10 +55,10 @@ namespace aStoreServer.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(int id)
         {
-          if (_context.Group == null)
-          {
-              return NotFound();
-          }
+            if (_context.Group == null)
+            {
+                return NotFound();
+            }
             var @group = await _context.Group.FindAsync(id);
 
             if (@group == null)
@@ -105,19 +105,19 @@ namespace aStoreServer.Controllers
         [HttpPost]
         public async Task<ActionResult<Group>> PostGroup(Group @group)
         {
-          if (_context.Group == null)
-          {
-              return Problem("Entity set 'ApplicationContext.Group'  is null.");
-          }
+            if (_context.Group == null)
+            {
+                return Problem("Entity set 'ApplicationContext.Group'  is null.");
+            }
             if (@group.GroupId != null)
             {
                 var group2 = await _context.Group.FindAsync(@group.GroupId);
                 if (group2 != null)
                 {
                     @group.Parent = group2;
-                    group2.Children.Add(@group);
+                    //group2.Children.Add(@group);
                 }
-                
+
             }
             _context.Group.Add(@group);
             await _context.SaveChangesAsync();

@@ -37,21 +37,22 @@ namespace aStoreServer.Models
         /// <summary>
         /// Ссылка на группу/категорию объекта
         /// </summary>
-        public int? GroupItemId { get; set; }
+        public int? GroupId { get; set; }
         /// <summary>
         /// Сущность категории объекта
         /// </summary>
      //   [ForeignKey(nameof(GroupItemId))]
         [JsonIgnore]
         //public virtual Group? Parent { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
+        [NotMapped]
+        public Group? Group { get; set; }
 
         public Entity()
         {
-           // this.Id = Id;
-          //  this.Name = Name;
-          //  this.Description = Description;
-            Groups = new List<Group>();
+            // this.Id = Id;
+            //  this.Name = Name;
+            //  this.Description = Description;
+            //Groups = new List<Group>();
         }
     }
 

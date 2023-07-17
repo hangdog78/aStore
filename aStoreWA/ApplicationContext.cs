@@ -22,5 +22,13 @@ public class ApplicationContext : DbContext
         Database.EnsureCreated();   // создаем базу данных при первом обращении
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Group>().HasMany(ev => ev.Entities).WithOne(e => e.Group)
+            .HasForeignKey(p => p.GroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
 
 }
